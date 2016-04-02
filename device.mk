@@ -16,6 +16,8 @@
 
 LOCAL_PATH := device/oppo/r7plus
 
+PRODUCT_COPY_FILES += device/oppo/r7plus/twrp.fstab:recovery/root/etc/twrp.fstab
+
 # Overlay
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
