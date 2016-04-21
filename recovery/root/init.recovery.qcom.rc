@@ -5,7 +5,6 @@ service qseecomd /sbin/qseecomd
 on init
 
 # prevent errormessage in log - works without though
-    mkdir -p /vendor/firmware/keymaster
     symlink /firmware/image/keymaste.b00 /vendor/firmware/keymaster/keymaster.b00
     symlink /firmware/image/keymaste.b01 /vendor/firmware/keymaster/keymaster.b01
     symlink /firmware/image/keymaste.b02 /vendor/firmware/keymaster/keymaster.b02
