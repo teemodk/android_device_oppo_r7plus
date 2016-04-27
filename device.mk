@@ -29,9 +29,7 @@ $(call inherit-product, device/oppo/msm8939-common/msm8939.mk)
 # Audio configuration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_platform_info.xml:system/etc/audio_platform_info.xml \
-    $(LOCAL_PATH)/audio/mixer_paths_mtp.xml:system/etc/mixer_paths_mtp.xml \
-    $(LOCAL_PATH)/audio/aanc_tuning_mixer.txt:system/etc/aanc_tuning_mixer.txt \
-    $(LOCAL_PATH)/audio/sound_trigger_mixer_paths.xml:system/etc/sound_trigger_mixer_paths.xml
+    $(LOCAL_PATH)/audio/mixer_paths_mtp.xml:system/etc/mixer_paths_mtp.xml
 
 # ACDB Loader calibration
 PRODUCT_COPY_FILES += \
@@ -42,36 +40,56 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/acdbdata/Hdmi_cal.acdb:system/etc/acdbdata/15018/Hdmi_cal.acdb \
     $(LOCAL_PATH)/audio/acdbdata/Headset_cal.acdb:system/etc/acdbdata/15018/Headset_cal.acdb \
     $(LOCAL_PATH)/audio/acdbdata/Speaker_cal.acdb:system/etc/acdbdata/15018/Speaker_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/WorkspaceFile.qwsp:system/etc/acdbdata/15018/WorkspaceFile.qwsp \
-    $(LOCAL_PATH)/audio/acdbdata/MTP/MTP_Bluetooth_cal.acdb:system/etc/acdbdata/MTP/MTP_Bluetooth_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/MTP/MTP_General_cal.acdb:system/etc/acdbdata/MTP/MTP_General_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/MTP/MTP_Global_cal.acdb:system/etc/acdbdata/MTP/MTP_Global_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/MTP/MTP_Handset_cal.acdb:system/etc/acdbdata/MTP/MTP_Handset_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/MTP/MTP_Hdmi_cal.acdb:system/etc/acdbdata/MTP/MTP_Hdmi_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/MTP/MTP_Headset_cal.acdb:system/etc/acdbdata/MTP/MTP_Headset_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/MTP/MTP_Speaker_cal.acdb:system/etc/acdbdata/MTP/MTP_Speaker_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/QRD/QRD_Bluetooth_cal.acdb:system/etc/acdbdata/QRD/QRD_Bluetooth_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/QRD/QRD_General_cal.acdb:system/etc/acdbdata/QRD/QRD_General_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/QRD/QRD_Global_cal.acdb:system/etc/acdbdata/QRD/QRD_Global_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/QRD/QRD_Handset_cal.acdb:system/etc/acdbdata/QRD/QRD_Handset_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/QRD/QRD_Hdmi_cal.acdb:system/etc/acdbdata/QRD/QRD_Hdmi_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/QRD/QRD_Headset_cal.acdb:system/etc/acdbdata/QRD/QRD_Headset_cal.acdb \
-    $(LOCAL_PATH)/audio/acdbdata/QRD/QRD_Speaker_cal.acdb:system/etc/acdbdata/QRD/QRD_Speaker_cal.acdb
+    $(LOCAL_PATH)/audio/acdbdata/WorkspaceFile.qwsp:system/etc/acdbdata/15018/WorkspaceFile.qwsp
+
+# Boot animation
+TARGET_SCREEN_HEIGHT := 1920
+TARGET_SCREEN_WIDTH := 1080
+
+# Dalvik/HWUI configs
+$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
+
+# Density
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := xxhdpi
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=480
+
+# Factory reset protection
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.frp.pst=/dev/block/bootdevice/by-name/config
 
 # Fingerprint sensor
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:system/etc/permissions/android.hardware.fingerprint.xml
+
 PRODUCT_PACKAGES += \
     fingerprint.msm8916 \
     fingerprintd
 
-# Ramdisk
+# GPS
 PRODUCT_PACKAGES += \
-    init.qcom.rc
+    gps.msm8916
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
+    $(LOCAL_PATH)/gps/izat.conf:system/etc/izat.conf \
+    $(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
 
 # Input configuration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
+
+# Ramdisk
+PRODUCT_PACKAGES += \
+    fstab.qcom \
+    init.qcom.rc
+
+# RIL
+PRODUCT_PROPERTY_OVERRIDES += \
+    rild.libpath=/vendor/lib64/libril-qc-qmi-1.so
 
 # Wifi
 PRODUCT_COPY_FILES += \

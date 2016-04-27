@@ -21,12 +21,17 @@ DEVICE_PATH := device/oppo/r7plus
 # Assert
 TARGET_OTA_ASSERT_DEVICE := r7plus,r7plusf,R7plusf
 
+# Assertions
+TARGET_BOARD_INFO_FILE ?= $(DEVICE_PATH)/board-info.txt
+
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
+# Include path
+TARGET_SPECIFIC_HEADER_PATH += $(DEVICE_PATH)/include
+
 # Kernel
 BOARD_DTBTOOL_ARGS := --force-v3
-BOARD_KERNEL_CMDLINE += ramoops.mem_address=0x9ff00000 ramoops.mem_size=0x400000
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x01000000
 TARGET_KERNEL_CONFIG := cyanogenmod_r7plus_defconfig
 
@@ -40,6 +45,7 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 25769803776
 
 # Recovery
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
 
 # Keymaster - Wait for qseecom to load
