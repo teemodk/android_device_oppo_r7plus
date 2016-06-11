@@ -52,7 +52,7 @@ TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 
 #twrp
-RECOVERY_VARIANT := twrp
+RECOVERY_VARIANT := twrp-mr
 
 BOARD_HAS_NO_REAL_SDCARD := true
 BOARD_HAS_NO_SELECT_BUTTON := true
@@ -84,3 +84,17 @@ BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 
 # inherit from the proprietary version
 -include vendor/oppo/r7plus/BoardConfigVendor.mk
+
+# Multirom flags
+TARGET_RECOVERY_IS_MULTIROM := true
+MR_INPUT_TYPE := type_b
+MR_INIT_DEVICES := device/oppo/r7plus/multirom/mr_init_devices.c
+DEVICE_RESOLUTION := 1080x1920
+MR_DPI := xhdpi
+MR_DPI_FONT := 340
+MR_FSTAB := device/oppo/r7plus/recovery/root/etc/twrp.fstab
+MR_KEXEC_MEM_MIN := 0x82000000
+MR_PIXEL_FORMAT := "RGB_565"
+MR_DEVICE_HOOKS := device/oppo/r7plus/multirom/mr_hooks.c
+MR_DEVICE_HOOKS_VER := 5
+MR_DEVICE_VARIANTS := R7plus r7plus R7plusf r7plusf
