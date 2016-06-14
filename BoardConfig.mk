@@ -76,8 +76,8 @@ TW_THEME := portrait_hdpi
 #TARGET_USERIMAGES_USE_F2FS := true
 
 # Add logging
-#TARGET_USES_LOGD := true
-#TWRP_INCLUDE_LOGCAT := true
+TARGET_USES_LOGD := true
+TWRP_INCLUDE_LOGCAT := true
 
 # SELinux
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
