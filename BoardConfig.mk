@@ -68,7 +68,7 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
 TW_IGNORE_ABS_MT_TRACKING_ID := true
 TW_INCLUDE_CRYPTO := true
-TW_INPUT_BLACKLIST := "accelerometer"
+TW_INPUT_BLACKLIST := "accelerometer\x0acompass\x0alis3dh-accel"
 TW_NO_USB_STORAGE := true
 TW_THEME := portrait_hdpi
 
