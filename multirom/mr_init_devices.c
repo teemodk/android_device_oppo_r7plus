@@ -9,6 +9,7 @@ const char *mr_init_devices[] =
 {
 
 	"/sys/class/graphics/fb0",
+	"/sys/class/graphics/fb1",
 
 	"/sys/block/mmcblk0",
 	"/sys/devices/soc.0",
@@ -20,7 +21,7 @@ const char *mr_init_devices[] =
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0",
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p22", //boot
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p26", //cache
-	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p1", //modem
+	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p1",  //modem
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p27", //persist
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p24", //system
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0/mmcblk0p37", //userdata
@@ -36,9 +37,8 @@ const char *mr_init_devices[] =
 	"/sys/module/mmcblk",
 	"/sys/block/mmcblk1",
 
-	"/sys/devices/soc.0/gpio_keys.69/input*",
+	"/sys/devices/soc.0/gpio_keys.67/input*",
 	"/sys/devices/virtual/input*",
-     // " /sys/devices/virtual/touchscreen/touchscreen_dev/*"
 	"/sys/devices/virtual/misc/uinput",
      //	"/sys/devices/soc.0/78b6000.i2c/i2c-0/0-0068/input*",
 
