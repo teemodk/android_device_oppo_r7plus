@@ -12,10 +12,7 @@ const char *mr_init_devices[] =
 	"/sys/class/graphics/fb1",
 
 	"/sys/block/mmcblk0",
-	"/sys/devices/soc.0",
 	"/sys/devices/soc.0/7824900.sdhci",
-	"/sys/devices/soc.0/7824900.sdhci/mmc_host",
-	"/sys/devices/soc.0/7824900.sdhci/mmc_host",
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0",
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001",
 	"/sys/devices/soc.0/7824900.sdhci/mmc_host/mmc0/mmc0:0001/block/mmcblk0",
@@ -35,20 +32,30 @@ const char *mr_init_devices[] =
 	"/sys/bus/mmc/drivers/mmcblk",
 	"/sys/module/mmc_core",
 	"/sys/module/mmcblk",
-	"/sys/block/mmcblk1",
+	// "/sys/block/mmcblk1",
 
 	"/sys/devices/soc.0/gpio_keys.67/input*",
 	"/sys/devices/virtual/input*",
 	"/sys/devices/virtual/misc/uinput",
-     //	"/sys/devices/soc.0/78b6000.i2c/i2c-0/0-0068/input*",
-
+	"/sys/devices/soc.0/78b5000.i2c/*",
+        "/sys/devices/soc.0/78b6000.i2c/*",
+        "/sys/devices/soc.0/78b7000.i2c/*",
+        "/sys/devices/soc.0/78b8000.i2c/*",
+        "/sys/devices/soc.0/78b9000.i2c/*",
+	
 	// for adb
 	"/sys/devices/virtual/tty/ptmx",
-	"/sys/devices/virtual/android_usb/android0*",
+	// "/sys/devices/virtual/android_usb/android0*",
+	"/sys/class/android_usb/android0*",\
+	"/sys/bus/platform/drivers/android_usb",
 	"/sys/bus/usb",
 
 	// USB drive
         "/sys/devices/platform/msm_hsusb*",
+
+	// sdcard
+	"/sys/devices/soc.0/7864900.sdhci/mmc_host/mmc1/mmc1:0007/block/mmcblk1",
+	"/sys/devices/soc.0/7864900.sdhci/mmc_host/mmc1/mmc1:0007/block/mmcblk1*",
 
 	NULL
 };

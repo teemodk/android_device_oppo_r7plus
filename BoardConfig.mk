@@ -86,14 +86,18 @@ BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 -include vendor/oppo/r7plus/BoardConfigVendor.mk
 
 # Multirom flags
+MR_CONTINUOUS_FB_UPDATE := true
+MR_ALLOW_NKK71_NOKEXEC_WORKAROUND := true
 TARGET_RECOVERY_IS_MULTIROM := true
 MR_INPUT_TYPE := type_b
 MR_INIT_DEVICES := device/oppo/r7plus/multirom/mr_init_devices.c
 DEVICE_RESOLUTION := 1080x1920
 MR_DPI := xhdpi
 MR_DPI_FONT := 340
-MR_FSTAB := device/oppo/r7plus/recovery/root/etc/twrp.fstab
+MR_USE_MROM_FSTAB := true
+MR_FSTAB := device/oppo/r7plus/multirom/mrom.fstab
 MR_KEXEC_MEM_MIN := 0x82000000
+MR_KEXEC_DTB := true
 MR_PIXEL_FORMAT := "RGB_565"
 # MR_DEVICE_HOOKS := device/oppo/r7plus/multirom/mr_hooks.c
 # MR_DEVICE_HOOKS_VER := 5
