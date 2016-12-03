@@ -17,6 +17,7 @@
 #define LOG_TAG "FingerprintHAL"
 // #define LOG_NDEBUG 0
 
+#include <endian.h>
 #include <cutils/log.h>
 #include <hardware/hardware.h>
 #include <hardware/fingerprint.h>
@@ -146,15 +147,18 @@ static int fingerprint_set_active_group(struct fingerprint_device *dev,
     return 0;
 }
 
-static int fingerprint_enumerate(struct fingerprint_device *dev,
-                                 fingerprint_finger_id_t *results,
-                                 uint32_t *max_size)
+static int fingerprint_enumerate(struct fingerprint_device *dev)
 {
     android::Vector<Fpc1020Sensor::EnrolledFingerprint> fps;
     android::Vector<Fpc1020Sensor::EnrolledFingerprint>::iterator iter;
     fpc1020_device_t *device = (fpc1020_device_t *) dev;
-    int ret = to_impl(dev)->getEnrolledFingerprints(fps);
+    fingerprint_notify_t notify = fingerprint_get_notify(dev);
 
+    if (!notify) {
+        return 0;
+    }
+
+    int ret = to_impl(dev)->getEnrolledFingerprints(fps);
     if (ret != 0) {
         ALOGE("Getting enrolled fingerprints failed: %d", ret);
         return ret;
@@ -168,13 +172,13 @@ static int fingerprint_enumerate(struct fingerprint_device *dev,
         }
     }
 
-    if (*max_size == 0) {
-        *max_size = fps.size();
-    } else {
-        for (size_t i = 0; i < *max_size && i < fps.size(); i++) {
-            results[i].fid = fps[i].fid;
-            results[i].gid = fps[i].gid;
-        }
+    for (size_t i = 0; i < fps.size(); i++) {
+        fingerprint_msg_t msg;
+        msg.type = FINGERPRINT_TEMPLATE_ENUMERATING;
+        msg.data.enumerated.finger.fid = fps[i].fid;
+        msg.data.enumerated.finger.gid = fps[i].gid;
+        msg.data.enumerated.remaining_templates = fps.size() - 1 - i;
+        notify(&msg);
     }
 
     return 0;
@@ -197,15 +201,6 @@ static int fingerprint_remove(struct fingerprint_device *dev,
     }
 
     device->impl->goToIdleState();
-
-    fingerprint_notify_t notify = fingerprint_get_notify(dev);
-    if (notify) {
-        fingerprint_msg_t msg;
-        msg.type = FINGERPRINT_TEMPLATE_REMOVED;
-        msg.data.removed.finger.fid = fp.fid;
-        msg.data.removed.finger.gid = fp.gid;
-        notify(&msg);
-    }
 
     return 0;
 }
@@ -286,6 +281,20 @@ static void fingerprint_cb_error(int result, void *data)
     }
 }
 
+static void fingerprint_cb_removed(const Fpc1020Sensor::EnrolledFingerprint *fp,
+                                   void *data)
+{
+    struct fingerprint_device *dev = (struct fingerprint_device *) data;
+    fingerprint_notify_t notify = fingerprint_get_notify(dev);
+    if (notify) {
+        fingerprint_msg_t msg;
+        msg.type = FINGERPRINT_TEMPLATE_REMOVED;
+        msg.data.removed.finger.fid = fp->fid;
+        msg.data.removed.finger.gid = fp->gid;
+        notify(&msg);
+    }
+}
+
 static int fingerprint_open(const hw_module_t* module,
                             const char __unused *id,
                             hw_device_t** device)
@@ -303,6 +312,7 @@ static int fingerprint_open(const hw_module_t* module,
     dev->impl = new Fpc1020Sensor(fingerprint_cb_acquired,
             fingerprint_cb_enrollment_progress,
             fingerprint_cb_authenticate,
+            fingerprint_cb_removed,
             fingerprint_cb_error, dev);
     if (!dev->impl) {
         delete dev;
