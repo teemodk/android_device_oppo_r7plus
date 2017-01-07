@@ -21,7 +21,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from r7plus device
 $(call inherit-product, device/oppo/r7plus/device.mk)
 
-# Inherit some common CM stuff.
+# Inherit some common LineageOS stuff.
 # $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
 PRODUCT_NAME := aicp_r7plus
